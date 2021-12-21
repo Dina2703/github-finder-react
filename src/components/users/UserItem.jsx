@@ -18,7 +18,7 @@ function UserItem({ user: { login, avatar_url } }) {
             className="text-base-content text-opacity-40"
             to={`/users/${login}`}
           >
-            Visti Profile
+            Visit Profile
           </Link>
         </div>
       </div>
