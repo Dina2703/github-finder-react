@@ -4,7 +4,7 @@ import GithubContext from "../../contex/github/GithubContext";
 function UserSearch() {
   const [text, setText] = useState("");
 
-  const { users, searchUsers } = useContext(GithubContext);
+  const { users, searchUsers, clearUsers } = useContext(GithubContext);
 
   const handleChange = (e) => setText(e.target.value);
   const handleSubmit = (e) => {
@@ -45,7 +45,9 @@ function UserSearch() {
       {/* the code below to show the Clear button only if there is a users in a state/displayed, otherwise it won't show up*/}
       {users.length > 0 && (
         <div>
-          <button className="btn btn-ghost btn-lg">Clear</button>
+          <button className="btn btn-ghost btn-lg" onClick={clearUsers}>
+            Clear
+          </button>
         </div>
       )}
     </div>
