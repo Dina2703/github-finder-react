@@ -6,7 +6,7 @@ import { searchUsers } from "../../contex/github/GithubActions";
 function UserSearch() {
   const [text, setText] = useState("");
 
-  const { users, clearUsers, dispatch } = useContext(GithubContext);
+  const { users, dispatch } = useContext(GithubContext);
   const { setAlert } = useContext(AlertContext);
 
   const handleChange = (e) => setText(e.target.value);
@@ -49,7 +49,10 @@ function UserSearch() {
       {/* the code below to show the Clear button only if there is a users in a state/displayed, otherwise it won't show up*/}
       {users.length > 0 && (
         <div>
-          <button className="btn btn-ghost btn-lg" onClick={clearUsers}>
+          <button
+            className="btn btn-ghost btn-lg"
+            onClick={() => dispatch({ type: "CLEAR_USERS" })}
+          >
             Clear
           </button>
         </div>

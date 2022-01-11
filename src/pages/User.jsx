@@ -4,19 +4,27 @@ import { useParams, Link } from "react-router-dom";
 import GithubContext from "../contex/github/GithubContext";
 import Spinner from "../components/layout/Spinner";
 import RepoList from "../components/repos/RepoList";
+import { getUser, getUserRepos } from "../contex/github/GithubActions";
 
 function User() {
-  const { user, getUser, loading, getUserRepos, repos } =
-    useContext(GithubContext);
+  //user, loading, repos are state values
+  const { user, loading, repos, dispatch } = useContext(GithubContext);
 
   const params = useParams();
 
-  //useEffect complanes to add dependencies inside [], like [getUser, getUseRepos]DON'T Do THAT!!!, because everytime we update our state these functions inside useEffect basically get created, what is gonna happen is when they get re-created useEffect will fire off because we added them as a dependencies so its gonna called again and it's gonna keep doing that until the browser crashes, so we don't wanna add these dependencies. you can add  this line to fix this warning-> -> //eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    getUser(params.login);
-    getUserRepos(params.login);
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch({ type: "SET_LOADING" });
+    const getUserData = async () => {
+      const userData = await getUser(params.login);
+      dispatch({ type: "GET_USER", payload: userData });
+
+      const userRepoData = await getUserRepos(params.login);
+      dispatch({ type: "GET_REPOS", payload: userRepoData });
+    };
+
+    getUserData();
+  }, [dispatch, params.login]);
+  //above we can add these as the useEffece dependencies, because these things are constantly changing
 
   const {
     name,
