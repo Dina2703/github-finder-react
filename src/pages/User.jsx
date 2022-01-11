@@ -11,9 +11,11 @@ function User() {
 
   const params = useParams();
 
+  //useEffect complanes to add dependencies inside [], like [getUser, getUseRepos]DON'T Do THAT!!!, because everytime we update our state these functions inside useEffect basically get created, what is gonna happen is when they get re-created useEffect will fire off because we added them as a dependencies so its gonna called again and it's gonna keep doing that until the browser crashes, so we don't wanna add these dependencies. you can add  this line to fix this warning-> -> //eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     getUser(params.login);
     getUserRepos(params.login);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {
@@ -156,7 +158,7 @@ function User() {
             </div>
           </div>
         </div>
-        <RepoList repos={repos}/>
+        <RepoList repos={repos} />
       </div>
     </>
   );
